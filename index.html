@@ -9,11 +9,26 @@
   <body>
     <h1>Virtual World</h1>
     <canvas id="myCanvas"></canvas>
+    <div id="controls">
+      <button onclick="addRandomPoint()">Add Point</button>
+    </div>
 
     <script type="text/javascript" src="js/math/graph.js"></script>
     <script type="text/javascript" src="js/primitives/points.js"></script>
     <script type="text/javascript" src="js/primitives/segment.js"></script>
     <script type="text/javascript">
+      function addRandomPoint() {
+        const success = graph.tryAddPoint(
+          new Point(
+            Math.random() * myCanvas.width,
+            Math.random() * myCanvas.height
+          )
+        );
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+        console.log(success);
+      }
+
       myCanvas.width = 600;
       myCanvas.height = 600;
 
