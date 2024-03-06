@@ -17,16 +17,24 @@ class GraphEditor {
       if (evt.button == 2) {
         if (this.hovered) {
           this.#removePoint(this.hovered);
+        } else {
+          this.selected = null;
         }
       }
       if (evt.button == 0) {
         const mouse = new Point(evt.offsetX, evt.offsetY);
         if (this.hovered) {
+          if (this.selected) {
+            this.graph.tryAddSegment(new Segment(this.selected, this.hovered));
+          }
           this.selected = this.hovered;
           this.dragging = true;
           return;
         }
         this.graph.addPoint(mouse);
+        if (this.selected) {
+          this.graph.tryAddSegment(new Segment(this.selected, mouse));
+        }
         this.selected = mouse;
         this.hovered = mouse;
       }
