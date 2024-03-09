@@ -11,7 +11,12 @@ class Graph {
       points.push(new Point(pointInfo.x, pointInfo.y));
     }
     for (const segInfo of info.segments) {
-      segments.push(new Segment(segInfo.p1, segInfo.p2));
+      segments.push(
+        new Segment(
+          points.find((p) => p.equals(segInfo.p1)),
+          points.find((p) => p.equals(segInfo.p2))
+        )
+      );
     }
     return new Graph(points, segments);
   }
