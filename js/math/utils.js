@@ -69,3 +69,8 @@ function getIntersection(A, B, C, D) {
   // If no intersection is found, return null
   return null;
 }
+
+function getRandomColor() {
+  const hue = 290 + Math.random() * 260;
+  return "hsl(" + hue + ", 100%, 60%)";
+}

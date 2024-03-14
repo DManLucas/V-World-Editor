@@ -7,10 +7,39 @@ class Polygon {
     }
   }
 
+  static multiBreak(polys) {
+    for (let i = 0; i < polys.length - 1; i++) {
+      for (let j = i + 1; j < polys.length; j++) {
+        Polygon.break(polys[i], polys[j]);
+      }
+    }
+  }
+
+  static union(polys) {
+    Polygon.multiBreak(polys);
+    const keptSegments = [];
+    for (let i = 0; i < polys.length; i++) {
+      for (const seg of polys[i].segments) {
+        let keep = true;
+        for (let j = 0; j < polys.length; j++) {
+          if (i != j) {
+            if (polys[j].containsSegment(seg)) {
+              keep = false;
+              break;
+            }
+          }
+        }
+        if (keep) {
+          keptSegments.push(seg);
+        }
+      }
+    }
+    return keptSegments;
+  }
+
   static break(poly1, poly2) {
     const segs1 = poly1.segments;
     const segs2 = poly2.segments;
-    const intersections = [];
     for (let i = 0; i < segs1.length; i++) {
       for (let j = 0; j < segs2.length; j++) {
         const int = getIntersection(
@@ -19,13 +48,24 @@ class Polygon {
           segs2[j].p1,
           segs2[j].p2
         );
-        if (int && intersections.offest != 1 && intersections.offest != 0) {
+        if (int && int.offest != 1 && int.offest != 0) {
           const point = new Point(int.x, int.y);
-          intersections.push(point);
+          let aux = segs1[i].p2;
+          segs1[i].p2 = point;
+          segs1.splice(i + 1, 0, new Segment(point, aux));
+
+          aux = segs2[j].p2;
+          segs2[j].p2 = point;
+          segs2.splice(j + 1, 0, new Segment(point, aux));
         }
       }
     }
-    return intersections;
+  }
+
+  drawSegments(ctx) {
+    for (const seg of this.segments) {
+      seg.draw(ctx, { color: getRandomColor(), width: 5 });
+    }
   }
 
   draw(
