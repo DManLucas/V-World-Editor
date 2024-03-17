@@ -42,11 +42,6 @@ function angle(p) {
   return Math.atan2(p.y, p.x);
 }
 
-// Function to linearly interpolate between two values (A and B) based on a factor (t)
-function lerp(A, B, t) {
-  return A + (B - A) * t;
-}
-
 // Function to find the intersection point of two lines defined by points A, B and C, D
 function getIntersection(A, B, C, D) {
   // Calculate the top part of the equation for the intersection of two lines
@@ -68,6 +63,11 @@ function getIntersection(A, B, C, D) {
         offset: t,
       };
     }
+  }
+
+  // Function to linearly interpolate between two values (A and B) based on a factor (t)
+  function lerp(A, B, t) {
+    return A + (B - A) * t;
   }
 
   // If no intersection is found, return null
