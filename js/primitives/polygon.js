@@ -7,14 +7,6 @@ class Polygon {
     }
   }
 
-  static multiBreak(polys) {
-    for (let i = 0; i < polys.length - 1; i++) {
-      for (let j = i + 1; j < polys.length; j++) {
-        Polygon.break(polys[i], polys[j]);
-      }
-    }
-  }
-
   static union(polys) {
     Polygon.multiBreak(polys);
     const keptSegments = [];
@@ -37,6 +29,14 @@ class Polygon {
     return keptSegments;
   }
 
+  static multiBreak(polys) {
+    for (let i = 0; i < polys.length - 1; i++) {
+      for (let j = i + 1; j < polys.length; j++) {
+        Polygon.break(polys[i], polys[j]);
+      }
+    }
+  }
+
   static break(poly1, poly2) {
     const segs1 = poly1.segments;
     const segs2 = poly2.segments;
@@ -48,18 +48,37 @@ class Polygon {
           segs2[j].p1,
           segs2[j].p2
         );
-        if (int && int.offest != 1 && int.offest != 0) {
+
+        if (int && int.offset != 1 && int.offset != 0) {
           const point = new Point(int.x, int.y);
           let aux = segs1[i].p2;
           segs1[i].p2 = point;
           segs1.splice(i + 1, 0, new Segment(point, aux));
-
           aux = segs2[j].p2;
           segs2[j].p2 = point;
           segs2.splice(j + 1, 0, new Segment(point, aux));
         }
       }
     }
+  }
+
+  distanceToPoint(point) {
+    return Math.min(...this.segments.map((s) => s.distanceToPoint(point)));
+  }
+
+  distanceToPoly(poly) {
+    return Math.min(...this.points.map((p) => poly.distanceToPoint(p)));
+  }
+
+  intersectsPoly(poly) {
+    for (let s1 of this.segments) {
+      for (let s2 of poly.segments) {
+        if (getIntersection(s1.p1, s1.p2, s2.p1, s2.p2)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   containsSegment(seg) {
@@ -71,7 +90,7 @@ class Polygon {
     const outerPoint = new Point(-1000, -1000);
     let intersectionCount = 0;
     for (const seg of this.segments) {
-      const int = getIntersection(outerPoint.point, seg.p1, seg.p2);
+      const int = getIntersection(outerPoint, point, seg.p1, seg.p2);
       if (int) {
         intersectionCount++;
       }
@@ -87,14 +106,14 @@ class Polygon {
 
   draw(
     ctx,
-    { stroke = "blue", lineWidth = 2, fill = "rgba(0,0,225,0.3)" } = {}
+    { stroke = "blue", lineWidth = 2, fill = "rgba(0,0,255,0.3)" } = {}
   ) {
     ctx.beginPath();
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
     ctx.lineWidth = lineWidth;
     ctx.moveTo(this.points[0].x, this.points[0].y);
-    for (let i = 0; i < this.points.length; i++) {
+    for (let i = 1; i < this.points.length; i++) {
       ctx.lineTo(this.points[i].x, this.points[i].y);
     }
     ctx.closePath();

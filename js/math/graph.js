@@ -16,6 +16,10 @@ class Graph {
     return new Graph(points, segments);
   }
 
+  hash() {
+    return JSON.stringify(this);
+  }
+
   addPoint(point) {
     this.points.push(point);
   }
@@ -79,6 +83,7 @@ class Graph {
     for (const seg of this.segments) {
       seg.draw(ctx);
     }
+
     for (const point of this.points) {
       point.draw(ctx);
     }
