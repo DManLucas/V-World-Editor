@@ -14,8 +14,8 @@ class Tree {
     for (let level = 0; level < levelCount; level++) {
       const t = level / (levelCount - 1);
       const point = lerp2D(this.center, top, t);
-      point.draw(ctx, { size: this.size, color: "green" });
+      const color = "rgb(30," + lerp(50, 200, t) + ",70)";
+      point.draw(ctx, { size: this.size, color: color });
     }
-    new Segment(this.center, top).draw(ctx);
   }
 }
