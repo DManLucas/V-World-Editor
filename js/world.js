@@ -167,7 +167,7 @@ class World {
     return bases;
   }
 
-  draw(ctx) {
+  draw(ctx, viewPoint) {
     for (const env of this.envelopes) {
       env.draw(ctx, { fill: "#BBB", stroke: "#BBB", lineWidth: 15 });
     }
@@ -179,7 +179,7 @@ class World {
     }
 
     for (const tree of this.trees) {
-      tree.draw(ctx);
+      tree.draw(ctx, viewPoint);
     }
     for (const bld of this.buildings) {
       bld.draw(ctx);
