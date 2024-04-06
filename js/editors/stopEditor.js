@@ -1,4 +1,4 @@
-class stopEditor {
+class StopEditor {
   constructor(viewport, world) {
     this.viewport = viewport;
     this.world = world;
@@ -47,6 +47,8 @@ class stopEditor {
       this.intent = null;
     }
   }
+
+  #handleMouseDown(evt) {}
 
   display() {
     if (this.intent) {
