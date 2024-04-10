@@ -11,25 +11,31 @@
     <canvas id="myCanvas"></canvas>
     <div id="controls">
       <button onclick="dispose()">
-        <img src="images/recycle-bin.png" width="20px" height="20px" />
+        <img title="Click to delete the virtual world/everything" src="images/recycle-bin.png" width="20px" height="20px" />
       </button>
       <button onclick="save()">
-        <img src="images/diskette.png" width="20px" height="20px" />
+        <img title="Click to save the virtual world/everything" src="images/diskette.png" width="20px" height="20px" />
       </button>
       &nbsp;
-      <button id="graphBtn" onclick="setMode('graph')">
+      <button title="Click to edit the virtual world by adding roads" id="graphBtn" onclick="setMode('graph')">
         <img src="images/edit.png" width="20px" height="20px" />
       </button>
-      <button id="stopBtn" onclick="setMode('stop')">
+      <button title="Click to add the stop writing onto the roads" id="stopBtn" onclick="setMode('stop')">
         <img src="images/stop.png" width="20px" height="20px" />
       </button>
+      <button title="Click to add the cross walk writing onto the roads" id="crossingBtn" onclick="setMode('crossing')">
+        <img src="images/pedestrians.png" width="20px" height="20px" />
+      </button>
+    </div>
     </div>
 
     <script src="js/world.js"></script>
     <script src="js/viewport.js"></script>
     <script src="js/markings/stop.js"></script>
+    <script src="js/markings/crossing.js"></script>
     <script src="js/editors/graphEditor.js"></script>
     <script src="js/editors/stopEditor.js"></script>
+    <script src="js/editors/crossingEditor.js"></script>
     <script src="js/items/tree.js"></script>
     <script src="js/items/building.js"></script>
     <script src="js/math/utils.js"></script>
@@ -53,7 +59,8 @@
       const viewport = new Viewport(myCanvas);
       const graphEditor = new GraphEditor(viewport, graph);
       const stopEditor = new StopEditor(viewport, world);
-
+      const crossingEditor = new CrossingEditor(viewport, world);
+      
       let oldGraphHash = graph.hash();
       animate();
 
@@ -70,11 +77,13 @@
         ctx.globalAlpha = 0.3;
         graphEditor.display();
         stopEditor.display();
+        crossingEditor.display();
         requestAnimationFrame(animate);
       }
 
       function dispose() {
         graphEditor.dispose();
+        world.markings.length = 0;
       }
 
       function save() {
@@ -94,6 +103,11 @@
             stopBtn.style.filter = "";
             stopEditor.enable();
             break;
+          case "crossing":
+            crossingBtn.style.backgroundColor = "white";
+            crossingBtn.style.filter = "";
+            crossingEditor.enable();
+            break;
           default:
             break;
         }
@@ -106,6 +120,9 @@
         stopBtn.style.backgroundColor = "gray";
         stopBtn.style.filter = "grayscale(100%)";
         stopEditor.disable();
+        crossingBtn.style.backgroundColor = "gray";
+        crossingBtn.style.filter = "grayscale(100%)";
+        crossingEditor.disable();
       }
     </script>
   </body>
