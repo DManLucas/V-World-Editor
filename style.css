@@ -12,10 +12,12 @@ h1 {
   background-color: rgb(52, 206, 14);
 }
 
-button {
+button,
+.file-input-label {
+  display: inline-block;
   background-color: white;
-  font-size: 20px;
-  padding: 5px 7px 0px 5px;
+  font-size: 27px;
+  padding: 5px 7px 7px 5px;
   border: none;
   border-radius: 5px;
   text-shadow: 1px 1px black;
@@ -25,4 +27,8 @@ button {
 button img {
   width: 30px;
   height: 30px;
+}
+
+input[type="file"] {
+  display: none;
 }

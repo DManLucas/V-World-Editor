@@ -26,6 +26,15 @@
           height="20px"
         />
       </button>
+      <label for="fileInput" class="file-input-label">
+        📁
+        <input
+          type="file"
+          id="fileInput"
+          accept=".world"
+          onchange="load(event)"
+        />
+      </label>
       &nbsp;
       <button
         title="Click to edit the virtual world by adding roads"
