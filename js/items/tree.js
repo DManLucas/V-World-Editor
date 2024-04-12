@@ -1,11 +1,13 @@
 class Tree {
+  // Constructor for the Tree class, initializing the center, size, and height properties
   constructor(center, size, height = 200) {
     this.center = center;
     this.size = size; // size of the base
     this.height = height;
-    this.base = this.#generateLevel(center, size);
+    this.base = this.#generateLevel(center, size); // generates the base of the tree
   }
 
+  // Generates a level of the tree by creating an array of points and returning a new Polygon object
   #generateLevel(point, size) {
     const points = [];
     const rad = size / 2;
@@ -17,6 +19,7 @@ class Tree {
     return new Polygon(points);
   }
 
+  // Draws the tree using the provided canvas context and viewpoint
   draw(ctx, viewPoint) {
     const top = getFake3dPoint(this.center, viewPoint, this.height);
 

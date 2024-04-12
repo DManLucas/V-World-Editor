@@ -202,13 +202,13 @@
       }
 
       function setMode(mode) {
-        dissableEditors();
+        disableEditors();
         tools[mode].button.style.backgroundColor = "white";
         tools[mode].button.style.filter = "";
         tools[mode].editor.enable();
       }
 
-      function dissableEditors() {
+      function disableEditors() {
         for (const tool of Object.values(tools)) {
           tool.button.style.backgroundColor = "gray";
           tool.button.style.filter = "grayscale(100%)";

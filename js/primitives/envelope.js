@@ -1,4 +1,11 @@
 class Envelope {
+  /**
+   * Constructs an Envelope instance with the given skeleton and width.
+   * The roundness parameter is optional and defaults to 1.
+   * @param {Segment} skeleton - The skeleton of the envelope.
+   * @param {number} width - The width of the envelope.
+   * @param {number} roundness - The roundness of the envelope. A higher value results in a more rounded envelope.
+   */
   constructor(skeleton, width, roundness = 1) {
     if (skeleton) {
       this.skeleton = skeleton;
@@ -6,6 +13,11 @@ class Envelope {
     }
   }
 
+  /**
+   * Loads an Envelope instance from the given info object.
+   * @param {Object} info - The info object containing the skeleton and polygon data.
+   * @returns {Envelope} The loaded Envelope instance.
+   */
   static load(info) {
     const env = new Envelope();
     env.skeleton = new Segment(info.skeleton.p1, info.skeleton.p2);
@@ -13,6 +25,12 @@ class Envelope {
     return env;
   }
 
+  /**
+   * Generates a polygon for the envelope based on the skeleton, width, and roundness.
+   * @param {number} width - The width of the envelope.
+   * @param {number} roundness - The roundness of the envelope. A higher value results in a more rounded envelope.
+   * @returns {Polygon} The generated polygon.
+   */
   #generatePolygon(width, roundness) {
     const { p1, p2 } = this.skeleton;
 
@@ -34,6 +52,11 @@ class Envelope {
     return new Polygon(points);
   }
 
+  /**
+   * Draws the envelope on the given canvas context with the specified options.
+   * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
+   * @param {Object} options - The drawing options.
+   */
   draw(ctx, options) {
     this.poly.draw(ctx, options);
   }

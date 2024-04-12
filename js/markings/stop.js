@@ -1,12 +1,17 @@
 class Stop extends Marking {
+  // Constructor for the Stop class, which inherits from the Marking class
   constructor(center, directionVector, width, height) {
     super(center, directionVector, width, height);
 
+    // Set the border property to the third segment of the poly property's segments array
     this.border = this.poly.segments[2];
+    // Set the type property to "stop"
     this.type = "stop";
   }
 
+  // Method to draw the Stop object on a canvas context
   draw(ctx) {
+    // Draw the border of the Stop object with a width of 5 and a color of "white"
     this.border.draw(ctx, { width: 5, color: "white" });
     ctx.save();
     ctx.translate(this.center.x, this.center.y);

@@ -12,16 +12,19 @@ class GraphEditor {
     this.mouse = null;
   }
 
+  // Enable the GraphEditor by adding event listeners
   enable() {
     this.#addEventListeners();
   }
 
+  // Disable the GraphEditor by removing event listeners and resetting selected and hovered properties
   disable() {
     this.#removeEventListeners();
-    this.selected = false;
-    this.hovered = false;
+    this.selected = null;
+    this.hovered = null;
   }
 
+  // Add event listeners for mouse events
   #addEventListeners() {
     this.boundMouseDown = this.#handleMouseDown.bind(this);
     this.boundMouseMove = this.#handleMouseMove.bind(this);
@@ -33,6 +36,7 @@ class GraphEditor {
     this.canvas.addEventListener("contextmenu", this.boundContextMenu);
   }
 
+  // Remove event listeners for mouse events
   #removeEventListeners() {
     this.canvas.removeEventListener("mousedown", this.boundMouseDown);
     this.canvas.removeEventListener("mousemove", this.boundMouseMove);
@@ -40,6 +44,7 @@ class GraphEditor {
     this.canvas.removeEventListener("contextmenu", this.boundContextMenu);
   }
 
+  // Handle mouse move events
   #handleMouseMove(evt) {
     this.mouse = this.viewport.getMouse(evt, true);
     this.hovered = getNearestPoint(
@@ -53,6 +58,7 @@ class GraphEditor {
     }
   }
 
+  // Handle mouse down events
   #handleMouseDown(evt) {
     if (evt.button == 2) {
       // right click
@@ -75,6 +81,7 @@ class GraphEditor {
     }
   }
 
+  // Select a point
   #select(point) {
     if (this.selected) {
       this.graph.tryAddSegment(new Segment(this.selected, point));
@@ -82,6 +89,7 @@ class GraphEditor {
     this.selected = point;
   }
 
+  // Remove a point
   #removePoint(point) {
     this.graph.removePoint(point);
     this.hovered = null;
@@ -90,12 +98,14 @@ class GraphEditor {
     }
   }
 
+  // Dispose of the GraphEditor by disposing of the graph and resetting selected and hovered properties
   dispose() {
     this.graph.dispose();
     this.selected = null;
     this.hovered = null;
   }
 
+  // Display the graph and any selected or hovered points
   display() {
     this.graph.draw(this.ctx);
     if (this.hovered) {
